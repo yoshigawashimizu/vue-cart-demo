@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div class="app-container">
+    <!-- Header 区域 -->
+    <cart-header></cart-header>
+
+    <!-- 商品 Item 项组件 -->
+    <cart-item v-for="item in list" :key="item.id" :item="item"/>
+
+    <!-- Foote 区域 -->
+    <cart-footer></cart-footer>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import CartHeader from '@/components/cart-header.vue'
+import CartFooter from '@/components/cart-footer.vue'
+import CartItem from '@/components/cart-item.vue'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
-nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  data () {
+    return {
+    }
+  },
+  components: {
+    CartHeader,
+    CartFooter,
+    CartItem
+  },
+  computed: {
+    ...mapState('cart', ['list']),
+    ...mapGetters('', [''])
+  },
+  methods: {
+    ...mapMutations('', ['']),
+    ...mapActions('cart', ['getList'])
+  },
+  created () {
+    // 发送请求获取数据
+    this.getList()
+  }
 }
+</script>
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+<style lang="less" scoped>
+.app-container {
+  padding: 50px 0;
+  font-size: 14px;
 }
 </style>
